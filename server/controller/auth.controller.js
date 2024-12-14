@@ -1,5 +1,5 @@
 import user from "../model/user.model.js"
-import bcryptjs from 'bcryptjs'
+import bcryptjs, { compareSync } from 'bcryptjs'
 
 const signIn = async(req , res)=>{
 
@@ -15,4 +15,17 @@ const signIn = async(req , res)=>{
 
 } 
 
-export default signIn
+const signUp =async (req,res)=>{
+   const {email,password} = req.body
+   try {
+    const   user =  await user.findOne({email})
+    if(!user){
+        return res.status(404).json('user not not allowed')
+    }
+    const comparepassword = bcryptjs.compareSync(password,user.password)
+   } catch (error) {
+    
+   }
+}
+
+export default {signIn , signUp}
