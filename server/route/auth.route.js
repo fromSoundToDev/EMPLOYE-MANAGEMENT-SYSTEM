@@ -1,6 +1,6 @@
 
 import express from 'express'
-import signIn from '../controller/auth.controller.js'
+import {signIn, signUp} from '../controller/auth.controller.js'
 
 // authentication route 
 

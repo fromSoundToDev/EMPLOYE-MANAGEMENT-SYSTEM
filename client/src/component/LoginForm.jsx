@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import axios from 'axios'
+
 
 export default function LoginForm() {
   const [formData, setformData] = useState({});
@@ -12,9 +14,10 @@ export default function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://lochost:3000/Api/auth");
+      const response = await axios.post("http://localhost:3000/Api/auth/sign-up",formData);
+      
     } catch (err) {
-      next(err);
+      next(err)
     }
   };
 

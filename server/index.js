@@ -33,14 +33,14 @@ app.listen(port,()=>{
 })
 
 //app route
-app.use('Api/auth',authRoute)
+app.use('/Api/auth',authRoute)
 
 // middleware that handle error 
 
 app.use((err,req,res,next)=>{
     const stausCode = err.status||500
     const message = err.message|| "internal error"
-    return res.stausCode.json({
+    return res.status(stausCode).json({
         stausCode,
         message,
         success:false
