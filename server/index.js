@@ -37,11 +37,11 @@ app.use('/Api/auth',authRoute)
 
 // middleware that handle error 
 
-app.use((err,req,res,next)=>{
-    const stausCode = err.status||500
-    const message = err.message|| "internal error"
-    return res.status(stausCode).json({
-        stausCode,
+app.use((error,req,res,next)=>{
+    const statusCode = error.status||500
+    const message = error.message|| "internal error"
+    return res.status(statusCode).json({
+        statusCode,
         message,
         success:false
     })

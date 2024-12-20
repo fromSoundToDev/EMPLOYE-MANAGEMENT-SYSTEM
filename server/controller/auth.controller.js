@@ -1,7 +1,7 @@
 import User from "../model/user.model.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { handleError } from "../../client/src/utils/error.js";
+import { handleError } from "../utils/error.js";
 
 export const signUp = async (req, res, next) => {
   const { userName, password, email, role } = req.body;
@@ -20,14 +20,16 @@ export const signIn = async (req, res, next) => {
 
   try {
     const isMatch = await User.findOne({ email });
+   
 
     if (!isMatch) {
-        return  next(handleError(401, "user not found"));
+       return  next(handleError(401, "user not found"));
        
     }
     const comparepassword = bcryptjs.compareSync(password, isMatch.password);
+
     if (!comparepassword) {
-        return next(handleError(401, "user not found"));
+     return    next(handleError(401, "wrong credencial"));
      
     }
 
@@ -37,13 +39,13 @@ export const signIn = async (req, res, next) => {
       { expiresIn: "1d" }
     );
 
-    const { password: pass, ...rest } = isMatch._doc;
+    const { password:pass, ...rest } = isMatch._doc;
 
     res
       .cookie("access_token", token, { httpOnly: true })
       .status(200)
       .json( rest );
   } catch (error) {
-    next(error);
+   next(error);
   }
 };
