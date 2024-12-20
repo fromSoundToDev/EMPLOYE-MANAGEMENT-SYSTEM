@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import  {Link, useNavigate} from 'react-router-dom'
 import axios from 'axios'
 
 
+
 export default function LoginForm() {
+  const navigate = useNavigate()
   const [formData, setformData] = useState({});
   const [error,setError]=useState(null)
   const [loading , setLoading] = useState(false)
@@ -23,7 +26,7 @@ export default function LoginForm() {
       
       if (response.statusText==="OK") {
         setLoading(false)
-        console.log(response);
+        navigate('/dashboard')
         return
       }
       if (response.response.data.success===false) {
@@ -36,8 +39,6 @@ export default function LoginForm() {
     } catch (err) {
       setLoading(false)
       setError(err.response.data.message)
-      
-     
     }
   };
 
@@ -46,7 +47,7 @@ export default function LoginForm() {
       onSubmit={handleSubmit}
       className=" shadow-md space-y-5 border-[2px] w-[320px] sm:w-80  mx-auto relative top-1/3 bg-white rounded-lg pt-4 pb-3"
     >
-      <div className="rounded-lg item  flex flex-row border-[1px]  p-2 mx-3">
+      <div className="rounded-lg group focus-within:ring-2 focus-within:ring-green-300  item  flex flex-row border-[1px]  p-2 mx-3">
         <label htmlFor="email" className="mr-2">
           Email
         </label>
@@ -59,7 +60,7 @@ export default function LoginForm() {
           required
         />
       </div>
-      <div className="rounded-lg item flex flex-row border-[1px]  p-2 mx-3">
+      <div className="rounded-lg group focus-within:ring-2 focus-within:ring-green-300 item flex flex-row border-[1px]  p-2 mx-3">
         <label htmlFor="password" className="mr-2">
           Password
         </label>
@@ -89,11 +90,15 @@ export default function LoginForm() {
         <button
         disabled= {loading}
           type="submit"
-          className=" disabled:opacity-70 rounded-lg  shadow-md text-white font-semibold active:opacity-80 p-2 bg-green-500 text text-lg w-2/3 tracking-wide mb-2 "
+          className=" disabled:opacity-70 rounded-lg  shadow-md text-white font-semibold active:opacity-80 p-2 bg-green-500 text text-lg w-full tracking-wide m-2 "
         >
           {loading?"Loading":"submit"}
         </button>
+        
       </div>
+      <div className=" mx-3">
+          <p className="">dont have an account? <Link to='/dashboard' className="text-green-500 ml-2">sign Up</Link> </p>
+        </div>
         {
           error && <p className=" text-center  text-base font-semibold text-red-400 sm:text-xl">{error}</p>
         }
